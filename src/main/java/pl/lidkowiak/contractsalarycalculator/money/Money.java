@@ -1,28 +1,20 @@
-package pl.lidkowiak.contractsalarycalculator.core;
+package pl.lidkowiak.contractsalarycalculator.money;
 
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.MessageFormat;
 import java.util.Currency;
 
+@Getter
 @EqualsAndHashCode
+@ToString
 public class Money {
 
-    public static class IncompatibleCurrenciesException extends RuntimeException {
-
-        public IncompatibleCurrenciesException(Currency currency1, Currency currency2) {
-            super(MessageFormat.format("Currencies {0} and {1} are incompatible!", currency1, currency2));
-        }
-
-    }
-
-    @Getter
     private final BigDecimal amount;
-    @Getter
     private final Currency currency;
 
     public static Money pln(BigDecimal amount) {
@@ -42,8 +34,8 @@ public class Money {
         this.currency = currency;
     }
 
-    public Money multiplyBy(int multiplier) {
-        return multiplyBy(BigDecimal.valueOf(multiplier));
+    public Money multiplyBy(int multiplicand) {
+        return multiplyBy(BigDecimal.valueOf(multiplicand));
     }
 
     public Money multiplyBy(BigDecimal multiplicand) {
@@ -51,22 +43,22 @@ public class Money {
     }
 
     public Money add(Money money) {
-        assertCompatibleCurrencies(money);
+        assertSameCurrencyAs(money);
         return new Money(amount.add(money.amount), currency);
     }
 
     public Money subtract(Money money) {
-        assertCompatibleCurrencies(money);
+        assertSameCurrencyAs(money);
         return new Money(amount.subtract(money.amount), currency);
     }
 
-    private void assertCompatibleCurrencies(Money money) {
+    private void assertSameCurrencyAs(Money money) {
         if (!currency.equals(money.currency)) {
-            throw new IncompatibleCurrenciesException(currency, money.currency);
+            throw new IncompatibleCurrenciesOperationException(currency, money.currency);
         }
     }
 
-    public boolean isCurrency(Currency currency) {
+    public boolean hasCurrency(Currency currency) {
         return this.currency.equals(currency);
     }
 

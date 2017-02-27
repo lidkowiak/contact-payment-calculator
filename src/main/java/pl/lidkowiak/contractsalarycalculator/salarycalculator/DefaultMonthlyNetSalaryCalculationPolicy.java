@@ -1,6 +1,6 @@
 package pl.lidkowiak.contractsalarycalculator.salarycalculator;
 
-import pl.lidkowiak.contractsalarycalculator.core.Money;
+import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 import java.math.BigDecimal;
 

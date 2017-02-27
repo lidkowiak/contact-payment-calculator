@@ -1,6 +1,6 @@
 package pl.lidkowiak.contractsalarycalculator.currencyexchange;
 
-import pl.lidkowiak.contractsalarycalculator.core.Money;
+import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 public interface ToPlnExchanger {
 

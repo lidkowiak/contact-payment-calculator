@@ -1,7 +1,7 @@
 package pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable;
 
-import pl.lidkowiak.contractsalarycalculator.core.Currencies;
-import pl.lidkowiak.contractsalarycalculator.core.Money;
+import pl.lidkowiak.contractsalarycalculator.money.Currencies;
+import pl.lidkowiak.contractsalarycalculator.money.Money;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.ExchangeNotSupportedException;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
 
@@ -22,7 +22,7 @@ public class NbpRateTableAToPlnExchanger implements ToPlnExchanger {
 
     @Override
     public Money exchange(Money toExchange) {
-        if (toExchange.isCurrency(Currencies.PLN)) {
+        if (toExchange.hasCurrency(Currencies.PLN)) {
             return toExchange;
         }
 

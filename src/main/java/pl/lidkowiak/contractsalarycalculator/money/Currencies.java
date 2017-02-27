@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.core;
+package pl.lidkowiak.contractsalarycalculator.money;
 
 import java.util.Currency;
 

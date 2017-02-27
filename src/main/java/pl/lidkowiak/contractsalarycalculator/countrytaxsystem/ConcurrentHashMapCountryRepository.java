@@ -1,8 +1,8 @@
 package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
 
 import org.springframework.stereotype.Repository;
-import pl.lidkowiak.contractsalarycalculator.core.Currencies;
-import pl.lidkowiak.contractsalarycalculator.core.Money;
+import pl.lidkowiak.contractsalarycalculator.money.Currencies;
+import pl.lidkowiak.contractsalarycalculator.money.Money;
 import pl.lidkowiak.contractsalarycalculator.salarycalculator.DefaultMonthlyNetSalaryCalculationPolicy;
 
 import java.math.BigDecimal;

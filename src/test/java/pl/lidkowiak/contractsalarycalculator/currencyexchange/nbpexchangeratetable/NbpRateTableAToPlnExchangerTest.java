@@ -2,7 +2,7 @@ package pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangerateta
 
 import org.junit.Before;
 import org.junit.Test;
-import pl.lidkowiak.contractsalarycalculator.core.Money;
+import pl.lidkowiak.contractsalarycalculator.money.Money;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.ExchangeNotSupportedException;
 
 import java.math.BigDecimal;

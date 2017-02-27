@@ -1,7 +1,7 @@
 package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
 
 import org.springframework.web.bind.annotation.*;
-import pl.lidkowiak.contractsalarycalculator.core.Money;
+import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 import java.util.Currency;
 import java.util.List;
