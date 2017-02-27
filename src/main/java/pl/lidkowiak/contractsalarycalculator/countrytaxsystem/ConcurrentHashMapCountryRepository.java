@@ -3,7 +3,7 @@ package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
 import org.springframework.stereotype.Repository;
 import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
-import pl.lidkowiak.contractsalarycalculator.salarycalculator.DefaultMonthlyNetSalaryCalculationPolicy;
+import pl.lidkowiak.contractsalarycalculator.salarycalculations.DefaultMonthlyNetSalaryCalculationPolicy;
 
 import java.math.BigDecimal;
 import java.util.List;

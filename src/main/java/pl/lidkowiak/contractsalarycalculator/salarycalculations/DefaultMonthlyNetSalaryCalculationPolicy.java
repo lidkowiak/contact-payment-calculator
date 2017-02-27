@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.salarycalculator;
+package pl.lidkowiak.contractsalarycalculator.salarycalculations;
 
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 
