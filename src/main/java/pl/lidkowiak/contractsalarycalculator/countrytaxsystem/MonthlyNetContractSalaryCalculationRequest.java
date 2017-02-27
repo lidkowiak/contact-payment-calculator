@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-class MonthlyNetContractSalaryCalculationRequest {
+public class MonthlyNetContractSalaryCalculationRequest {
 
     private BigDecimal amount;
     private String currency;

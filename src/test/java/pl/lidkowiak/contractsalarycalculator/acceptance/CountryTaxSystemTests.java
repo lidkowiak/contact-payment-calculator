@@ -1,12 +1,18 @@
-package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
+package pl.lidkowiak.contractsalarycalculator.acceptance;
 
 import io.restassured.RestAssured;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
+import pl.lidkowiak.contractsalarycalculator.Application;
+import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.MonthlyNetContractSalaryCalculationRequest;
 
 import java.math.BigDecimal;
 
@@ -67,7 +73,11 @@ public class CountryTaxSystemTests {
         given()
                 .contentType(JSON)
                 .accept(JSON)
-.body(MonthlyNetContractSalaryCalculationRequest.builder().amount(BigDecimal.valueOf(1000)).currency("PLN").build())
+                .body(MonthlyNetContractSalaryCalculationRequest.builder()
+                        .amount(BigDecimal.valueOf(1000))
+                        .currency("PLN")
+                        .build()
+                )
                 .when()
 
                 .log().all()
@@ -82,6 +92,19 @@ public class CountryTaxSystemTests {
                 .statusCode(500)
                 .contentType(JSON)
                 .body("message", equalTo("FR is not supported!"));
+    }
+
+    @Configuration
+    @Import(Application.class)
+    static class Config {
+
+        /**
+         * Forces to use Tomcat as a servlet container instead of Jetty that comes from Wiremock
+         */
+        @Bean
+        TomcatEmbeddedServletContainerFactory tomcat() {
+            return new TomcatEmbeddedServletContainerFactory();
+        }
     }
 
 }
