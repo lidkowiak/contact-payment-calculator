@@ -1,11 +1,15 @@
 package pl.lidkowiak.contractsalarycalculator.core;
 
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.Currency;
 
+@EqualsAndHashCode
 public class Money {
 
     public static class IncompatibleCurrenciesException extends RuntimeException {
@@ -16,8 +20,10 @@ public class Money {
 
     }
 
-    private BigDecimal amount;
-    private Currency currency;
+    @Getter
+    private final BigDecimal amount;
+    @Getter
+    private final Currency currency;
 
     public static Money pln(BigDecimal amount) {
         return new Money(amount, Currencies.PLN);
@@ -27,7 +33,7 @@ public class Money {
         return new Money(amount, Currencies.EUR);
     }
 
-    public static Money gbr(BigDecimal amount) {
+    public static Money gbp(BigDecimal amount) {
         return new Money(amount, Currencies.GBP);
     }
 
@@ -60,8 +66,8 @@ public class Money {
         }
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public boolean isCurrency(Currency currency) {
+        return this.currency.equals(currency);
     }
 
 }

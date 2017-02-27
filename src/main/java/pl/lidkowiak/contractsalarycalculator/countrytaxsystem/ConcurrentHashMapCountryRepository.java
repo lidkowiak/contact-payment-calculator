@@ -27,7 +27,7 @@ class ConcurrentHashMapCountryRepository implements CountryTaxSystemRepository {
                         .countryName("United Kingdom")
                         .currency(Currencies.GBP)
                         .monthlyNetContractSalaryCalculationPolicy(new DefaultMonthlyNetSalaryCalculationPolicy(
-                                new BigDecimal("0.25"), Money.gbr(BigDecimal.valueOf(600)))
+                                new BigDecimal("0.25"), Money.gbp(BigDecimal.valueOf(600)))
                         )
                         .build(),
                 CountryTaxSystem.builder()

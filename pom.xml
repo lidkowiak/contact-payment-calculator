@@ -23,12 +23,12 @@
     </properties>
 
     <dependencies>
+        <!-- RESTful webservices with Spring MVC and Tomcat as a default servlet container-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- https://projectlombok.org - boilerplate-free Java code -->
+        <!-- Boilerplate-free Java code -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -36,17 +36,31 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Testing Spring Boot applications + libraries (JUnit, Hamcrest, Mockito, ...)-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!-- Easy testing REST service in Java -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>3.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Mock HTTP APIs for testing -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>2.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Fluent assertions-->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.6.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
