@@ -62,4 +62,8 @@ public class Money {
         return this.currency.equals(currency);
     }
 
+    public String getCurrencyCode() {
+        return currency.getCurrencyCode();
+    }
+
 }

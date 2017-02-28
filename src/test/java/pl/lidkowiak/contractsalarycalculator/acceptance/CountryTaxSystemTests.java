@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.lidkowiak.contractsalarycalculator.Application;
-import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.MonthlyNetContractSalaryCalculationRequest;
+import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.MoneyDto;
 
 import java.math.BigDecimal;
 
@@ -31,7 +31,7 @@ public class CountryTaxSystemTests {
 
     @Before
     public void setUpRestAssuredWithRandomPort() {
-        RestAssured.port = port;
+s        RestAssured.port = port;
     }
 
     @Test
@@ -73,15 +73,12 @@ public class CountryTaxSystemTests {
         given()
                 .contentType(JSON)
                 .accept(JSON)
-                .body(MonthlyNetContractSalaryCalculationRequest.builder()
-                        .amount(BigDecimal.valueOf(1000))
-                        .currency("PLN")
-                        .build()
-                )
+                .body(MoneyDto.of(BigDecimal.valueOf(1000), "PLN"))
+
                 .when()
 
                 .log().all()
-                .post("/country-tax-systems/{countryCode}/monthly-net-contract-salary-calculation", "FR")
+                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "FR")
 
 
                 .then()
@@ -91,7 +88,7 @@ public class CountryTaxSystemTests {
 
                 .statusCode(500)
                 .contentType(JSON)
-                .body("message", equalTo("FR is not supported!"));
+                .body("message", equalTo("FR not found!"));
     }
 
     @Configuration

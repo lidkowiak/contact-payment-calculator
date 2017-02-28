@@ -1,6 +1,8 @@
 package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
 
 import org.springframework.web.bind.annotation.*;
+import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.CountryTaxSystemDto;
+import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.MoneyDto;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 import java.util.Currency;
@@ -12,29 +14,25 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RequestMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
 class CountryTaxSystemEndpoint {
 
-    private final CountryTaxSystemRepository countryTaxSystemRepository;
-    private final DtoAssembler dtoAssembler;
+    private final CountryTaxSystemFacade countryTaxSystemFacade;
 
-    CountryTaxSystemEndpoint(CountryTaxSystemRepository countryTaxSystemRepository) {
-        this.countryTaxSystemRepository = countryTaxSystemRepository;
-        this.dtoAssembler = new DtoAssembler();
+    CountryTaxSystemEndpoint(CountryTaxSystemFacade countryTaxSystemFacade) {
+        this.countryTaxSystemFacade = countryTaxSystemFacade;
     }
 
     @GetMapping("/country-tax-systems")
     List<CountryTaxSystemDto> getAllCountryTasSystems() {
-        final List<CountryTaxSystem> countryTaxSystems = countryTaxSystemRepository.findAll();
-        return dtoAssembler.toDto(countryTaxSystems);
+        return countryTaxSystemFacade.getAllSupportedCountryTaxSystems();
     }
 
-    @PostMapping("/country-tax-systems/{countryCode}/monthly-net-contract-salary-calculation")
-    MonthlyNetContractSalaryCalculationResult calculateMonthlyNetContractSalary(@PathVariable String countryCode,
-                                                                                @RequestBody MonthlyNetContractSalaryCalculationRequest calculationRequest) {
-        final CountryTaxSystem countryTaxSystem = countryTaxSystemRepository.findByCountryCode(countryCode)
-                .orElseThrow(() -> new CountryTaxSystemNotSupportedException(countryCode));
+    @PostMapping("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation")
+    MoneyDto calculateMonthlyNetContractSalary(@PathVariable String countryCode, @RequestBody MoneyDto dailyNetSalaryDto) {
 
-        countryTaxSystem.calculateMonthlyNetSalary(new Money(calculationRequest.getAmount(), Currency.getInstance(calculationRequest.getCurrency())));
-        return null;
+        final Money dailyNetSalary = new Money(dailyNetSalaryDto.getAmount(), Currency.getInstance(dailyNetSalaryDto.getCurrency()));
+        final Money monthlyNetContractSalaryInPln = countryTaxSystemFacade.calculateMonthlyNetContractSalaryInPln(countryCode, dailyNetSalary);
+
+        return MoneyDto.of(monthlyNetContractSalaryInPln.getAmount(), monthlyNetContractSalaryInPln.getCurrencyCode());
+
     }
-
 
 }
