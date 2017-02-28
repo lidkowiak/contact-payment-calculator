@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
+package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -38,15 +38,16 @@ class CountryTaxSystemConfiguration {
                     .monthlyNetContractSalaryCalculationPolicy(new DefaultMonthlyNetSalaryCalculationPolicy(
                             new BigDecimal("0.19"), Money.pln(BigDecimal.valueOf(1200)))
                     )
-                    .build());
+                    .build()
+    );
+
+    @Value("${nbpApiExchangeRatesTableUrl:http://api.nbp.pl/api/exchangerates/tables/A}")
+    String nbpApiExchangeRatesTableUrl;
 
     @Bean
     CountryTaxSystemRepository countryTaxSystemRepository() {
         return new InMemoryCountryTaxSystemRepository(SUPPORTED_COUNTRY_TAX_SYSTEMS);
     }
-
-    @Value("${nbpApiExchangeRatesTableUrl:http://api.nbp.pl/api/exchangerates/tables/A}")
-    String nbpApiExchangeRatesTableUrl;
 
     @Bean
     CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository) {

@@ -1,38 +1,21 @@
 package pl.lidkowiak.contractsalarycalculator.acceptance;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
 import io.restassured.RestAssured;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
-import pl.lidkowiak.contractsalarycalculator.Application;
 import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.MoneyDto;
 
 import java.math.BigDecimal;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
+import static io.restassured.config.JsonConfig.jsonConfig;
 import static io.restassured.http.ContentType.JSON;
+import static io.restassured.path.json.config.JsonPathConfig.NumberReturnType.BIG_DECIMAL;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
-public class CountryTaxSystemTests {
-
-    @LocalServerPort
-    int port;
-
-    @Before
-    public void setUpRestAssuredWithRandomPort() {
-s        RestAssured.port = port;
-    }
+public class CountryTaxSystemTests extends AbstractIntegrationTest {
 
     @Test
     public void should_get_all_three_defined_country_tax_system() {
@@ -69,6 +52,102 @@ s        RestAssured.port = port;
     }
 
     @Test
+    public void should_calculate_monthly_net_salary_for_United_Kingdom() {
+        wireMockServer.stubFor(get(urlEqualTo("/api/exchangerates/tables/A"))
+                .withHeader("Accept", WireMock.equalTo("application/json;charset=UTF-8"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json;charset=UTF-8")
+                        .withBodyFile("api_exchangerates_tables_A_27_02_2017_EUR_GBR.json")));
+
+        given()
+                .config(RestAssured.config().jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL)))
+                .contentType(JSON)
+                .accept(JSON)
+                .body(MoneyDto.of(BigDecimal.valueOf(200), "GBP"))
+
+                .when()
+
+                .log().all()
+                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "UK")
+
+
+                .then()
+
+                .log().all()
+                .assertThat()
+
+                .statusCode(200)
+                .contentType(JSON)
+                .body("amount", equalTo(new BigDecimal("14434.11")))
+                .body("currency", equalTo("PLN"));
+    }
+
+    @Test
+    public void should_calculate_monthly_net_salary_for_Poland() {
+        wireMockServer.stubFor(get(urlEqualTo("/api/exchangerates/tables/A"))
+                .withHeader("Accept", WireMock.equalTo("application/json;charset=UTF-8"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json;charset=UTF-8")
+                        .withBodyFile("api_exchangerates_tables_A_27_02_2017_EUR_GBR.json")));
+
+        given()
+                .config(RestAssured.config().jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL)))
+                .contentType(JSON)
+                .accept(JSON)
+                .body(MoneyDto.of(BigDecimal.valueOf(1000), "PLN"))
+
+                .when()
+
+                .log().all()
+                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "PL")
+
+
+                .then()
+
+                .log().all()
+                .assertThat()
+
+                .statusCode(200)
+                .contentType(JSON)
+                .body("amount", equalTo(new BigDecimal("16848.00")))
+                .body("currency", equalTo("PLN"));
+    }
+
+    @Test
+    public void should_calculate_monthly_net_salary_for_Germany() {
+        wireMockServer.stubFor(get(urlEqualTo("/api/exchangerates/tables/A"))
+                .withHeader("Accept", WireMock.equalTo("application/json;charset=UTF-8"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json;charset=UTF-8")
+                        .withBodyFile("api_exchangerates_tables_A_27_02_2017_EUR_GBR.json")));
+
+        given()
+                .config(RestAssured.config().jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL)))
+                .contentType(JSON)
+                .accept(JSON)
+                .body(MoneyDto.of(BigDecimal.valueOf(300), "EUR"))
+
+                .when()
+
+                .log().all()
+                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "DE")
+
+
+                .then()
+
+                .log().all()
+                .assertThat()
+
+                .statusCode(200)
+                .contentType(JSON)
+                .body("amount", equalTo(new BigDecimal("20014.64")))
+                .body("currency", equalTo("PLN"));
+    }
+
+    @Test
     public void should_return_error_when_try_to_perform_calculation_for_not_supported_country() {
         given()
                 .contentType(JSON)
@@ -91,17 +170,28 @@ s        RestAssured.port = port;
                 .body("message", equalTo("FR not found!"));
     }
 
-    @Configuration
-    @Import(Application.class)
-    static class Config {
+    @Test
+    public void should_return_error_when_try_to_perform_calculation_for_country_with_different_currency() {
+        given()
+                .contentType(JSON)
+                .accept(JSON)
+                .body(MoneyDto.of(BigDecimal.valueOf(1000), "PLN"))
 
-        /**
-         * Forces to use Tomcat as a servlet container instead of Jetty that comes from Wiremock
-         */
-        @Bean
-        TomcatEmbeddedServletContainerFactory tomcat() {
-            return new TomcatEmbeddedServletContainerFactory();
-        }
+                .when()
+
+                .log().all()
+                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "DE")
+
+
+                .then()
+
+                .log().all()
+                .assertThat()
+
+                .statusCode(500)
+                .contentType(JSON)
+                .body("message", equalTo("Currencies PLN and EUR are incompatible!"));
     }
+
 
 }

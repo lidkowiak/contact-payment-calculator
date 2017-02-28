@@ -29,7 +29,15 @@ public class Money {
         return new Money(amount, Currencies.GBP);
     }
 
-    public Money(BigDecimal amount, Currency currency) {
+    public static Money of(BigDecimal amount, Currency currency) {
+        return new Money(amount, currency);
+    }
+
+    public static Money of(BigDecimal amount, String currencyCode) {
+        return new Money(amount, Currency.getInstance(currencyCode));
+    }
+
+    private Money(BigDecimal amount, Currency currency) {
         this.amount = amount.setScale(2, RoundingMode.HALF_EVEN);
         this.currency = currency;
     }

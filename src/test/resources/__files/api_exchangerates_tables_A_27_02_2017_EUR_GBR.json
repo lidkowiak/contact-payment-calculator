@@ -1,0 +1,19 @@
+[
+  {
+    "table": "A",
+    "no": "040/A/NBP/2017",
+    "effectiveDate": "2017-02-27",
+    "rates": [
+      {
+        "currency": "euro",
+        "code": "EUR",
+        "mid": 4.3135
+      },
+      {
+        "currency": "funt szterling",
+        "code": "GBP",
+        "mid": 5.0646
+      }
+    ]
+  }
+]

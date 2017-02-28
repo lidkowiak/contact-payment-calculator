@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
+package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.CountryTaxSystemDto;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
@@ -8,7 +8,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-class CountryTaxSystemFacade {
+public class CountryTaxSystemFacade {
 
     private final CountryTaxSystemRepository repository;
     private final ToPlnExchanger toPlnExchanger;
@@ -18,18 +18,18 @@ class CountryTaxSystemFacade {
         this.toPlnExchanger = toPlnExchanger;
     }
 
-    List<CountryTaxSystemDto> getAllSupportedCountryTaxSystems() {
+    public List<CountryTaxSystemDto> getAllSupportedCountryTaxSystems() {
         final List<CountryTaxSystem> countryTaxSystems = repository.findAll();
         return toDto(countryTaxSystems);
     }
 
-    Money calculateMonthlyNetContractSalaryInPln(String countryCode, Money dailyNetSalary) {
+    public Money calculateMonthlyNetContractSalaryInPln(String countryCode, Money dailyNetSalary) {
         final Money calculateMonthlyNetSalary = calculateMonthlyNetContractSalary(countryCode, dailyNetSalary);
         final Money calculateMonthlyNetSalaryPln = toPlnExchanger.exchange(calculateMonthlyNetSalary);
         return calculateMonthlyNetSalaryPln;
     }
 
-    Money calculateMonthlyNetContractSalary(String countryCode, Money dailyNetSalary) {
+    public Money calculateMonthlyNetContractSalary(String countryCode, Money dailyNetSalary) {
         final CountryTaxSystem countryTaxSystem = repository.findByCountryCode(countryCode)
                 .orElseThrow(() -> new CountryTaxSystemNotFoundException(countryCode));
 

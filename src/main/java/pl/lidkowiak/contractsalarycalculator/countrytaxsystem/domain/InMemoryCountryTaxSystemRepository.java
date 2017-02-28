@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
+package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import java.util.Collection;
 import java.util.List;

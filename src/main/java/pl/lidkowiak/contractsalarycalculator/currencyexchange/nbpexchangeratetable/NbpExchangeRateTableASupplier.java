@@ -19,10 +19,6 @@ class NbpExchangeRateTableASupplier implements Supplier<ExchangeRatesTableDto> {
     private final String nbpApiExchangeRatesTableUrl;
     private final RestOperations restOperations;
 
-    NbpExchangeRateTableASupplier() {
-        this("http://api.nbp.pl/api/exchangerates/tables/A");
-    }
-
     NbpExchangeRateTableASupplier(String nbpApiExchangeRatesTableUrl) {
         this.nbpApiExchangeRatesTableUrl = nbpApiExchangeRatesTableUrl;
         this.restOperations = new RestTemplate();

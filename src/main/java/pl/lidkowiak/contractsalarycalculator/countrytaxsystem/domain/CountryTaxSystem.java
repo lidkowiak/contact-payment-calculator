@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
+package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,6 @@ class CountryTaxSystem {
     @Getter
     private final String countryName;
 
-    @Getter
     private final Currency currency;
 
     private final MonthlyNetContractSalaryCalculationPolicy monthlyNetContractSalaryCalculationPolicy;
