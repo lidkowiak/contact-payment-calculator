@@ -4,5 +4,8 @@
 ## Build
 `./mvnw clean install`
 
-## Running
+## Run
 `./mvnw spring-boot:run`
+
+## Browser
+`http://localhost:8080`
