@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable;
+package pl.lidkowiak.contractsalarycalculator.nbpapiclient;
 
 class FetchingExchangeRatesTableException extends RuntimeException {
 

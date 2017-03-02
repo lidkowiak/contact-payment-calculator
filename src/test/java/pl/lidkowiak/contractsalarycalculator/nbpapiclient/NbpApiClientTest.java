@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable;
+package pl.lidkowiak.contractsalarycalculator.nbpapiclient;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.AfterClass;
@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.ExchangeRatesTableDto;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.FetchingExchangeRatesTableException;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiClient;
 
 import java.math.BigDecimal;
 
@@ -15,17 +18,17 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class NbpExchangeRateTableASupplierTest {
+public class NbpApiClientTest {
 
     static WireMockServer wireMockServer;
-    static NbpExchangeRateTableASupplier cut;
+    static NbpApiClient cut;
 
     @BeforeClass
     public static void setUpWireMock() {
         wireMockServer = new WireMockServer(wireMockConfig().dynamicPort());
         wireMockServer.start();
 
-        cut = new NbpExchangeRateTableASupplier("http://localhost:" + wireMockServer.port());
+        cut = new NbpApiClient("http://localhost:" + wireMockServer.port());
     }
 
     @AfterClass
@@ -49,7 +52,7 @@ public class NbpExchangeRateTableASupplierTest {
                         .withBodyFile("api_exchangerates_tables_A_27_02_2017.json")));
 
         //when
-        ExchangeRatesTableDto exchangeRatesTable = cut.get();
+        ExchangeRatesTableDto exchangeRatesTable = cut.getExchangeRatesTableA();
 
         //then
         assertThat(exchangeRatesTable).isEqualTo(ExchangeRatesTableDto.builder()
@@ -108,7 +111,7 @@ public class NbpExchangeRateTableASupplierTest {
 
         //when
         //then
-        assertThatThrownBy(() -> cut.get())
+        assertThatThrownBy(() -> cut.getExchangeRatesTableA())
                 .isInstanceOf(FetchingExchangeRatesTableException.class)
                 .hasMessage("Error occurred during fetching NBP exchange rates!")
                 .hasCauseInstanceOf(HttpClientErrorException.class);

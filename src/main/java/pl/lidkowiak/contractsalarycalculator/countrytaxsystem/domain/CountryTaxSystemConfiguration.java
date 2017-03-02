@@ -2,11 +2,12 @@ package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable.NbpApiBaseUrl;
-import pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable.NbpExchangeRateTableASupplier;
-import pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable.NbpRateTableAToPlnExchanger;
+import pl.lidkowiak.contractsalarycalculator.currencyexchange.NbpRateTableAToPlnExchanger;
+import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
 import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiBaseUrl;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiClient;
 import pl.lidkowiak.contractsalarycalculator.salarycalculations.DefaultMonthlyNetSalaryCalculationPolicy;
 
 import java.math.BigDecimal;
@@ -48,13 +49,13 @@ class CountryTaxSystemConfiguration {
     }
 
     @Bean
-    NbpExchangeRateTableASupplier nbpExchangeRateTableASupplier(@NbpApiBaseUrl String nbpApiBaseUrl) {
-        return new NbpExchangeRateTableASupplier(nbpApiBaseUrl);
+    NbpApiClient nbpApiClient(@NbpApiBaseUrl String nbpApiBaseUrl) {
+        return new NbpApiClient(nbpApiBaseUrl);
     }
 
     @Bean
-    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository,
-                                                  NbpExchangeRateTableASupplier nbpExchangeRateTableASupplier) {
-        return new CountryTaxSystemFacade(countryTaxSystemRepository, new NbpRateTableAToPlnExchanger(nbpExchangeRateTableASupplier));
+    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository, NbpApiClient nbpApiBaseUrl) {
+        final ToPlnExchanger toPlnExchanger = new NbpRateTableAToPlnExchanger(nbpApiBaseUrl);
+        return new CountryTaxSystemFacade(countryTaxSystemRepository, toPlnExchanger);
     }
 }

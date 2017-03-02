@@ -1,19 +1,18 @@
-package pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable;
+package pl.lidkowiak.contractsalarycalculator.currencyexchange;
 
 import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
-import pl.lidkowiak.contractsalarycalculator.currencyexchange.ExchangeNotSupportedException;
-import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.ExchangeRatesTableDto;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiClient;
 
 import java.util.Currency;
-import java.util.function.Supplier;
 
 public class NbpRateTableAToPlnExchanger implements ToPlnExchanger {
 
-    private Supplier<ExchangeRatesTableDto> exchangeRatesTableADto;
+    private NbpApiClient nbpApiClient;
 
-    public NbpRateTableAToPlnExchanger(Supplier<ExchangeRatesTableDto> exchangeRatesTableADto) {
-        this.exchangeRatesTableADto = exchangeRatesTableADto;
+    public NbpRateTableAToPlnExchanger(NbpApiClient nbpApiClient) {
+        this.nbpApiClient = nbpApiClient;
     }
 
     @Override
@@ -24,7 +23,7 @@ public class NbpRateTableAToPlnExchanger implements ToPlnExchanger {
 
         final Currency sourceCurrency = toExchange.getCurrency();
 
-        final ExchangeRatesTableDto exchangeRatesTable = exchangeRatesTableADto.get();
+        final ExchangeRatesTableDto exchangeRatesTable = nbpApiClient.getExchangeRatesTableA();
         ExchangeRatesTableDto.RateDto rate = exchangeRatesTable.rateFor(sourceCurrency)
                 .orElseThrow(() -> new ExchangeNotSupportedException(sourceCurrency, Currencies.PLN));
 

@@ -1,9 +1,8 @@
-package pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable;
+package pl.lidkowiak.contractsalarycalculator.nbpapiclient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -13,7 +12,7 @@ import java.util.Optional;
 @Data
 @Builder
 @AllArgsConstructor
-class ExchangeRatesTableDto {
+public class ExchangeRatesTableDto {
     /**
      * Typ tabeli
      */
@@ -34,7 +33,7 @@ class ExchangeRatesTableDto {
      */
     private List<RateDto> rates;
 
-    Optional<RateDto> rateFor(Currency currency) {
+    public Optional<RateDto> rateFor(Currency currency) {
         return rates.stream()
                 .filter(r -> r.isForCurrency(currency))
                 .findFirst();
@@ -42,7 +41,7 @@ class ExchangeRatesTableDto {
 
     @Data
     @AllArgsConstructor
-    static class RateDto {
+    public static class RateDto {
         /**
          * Nazwa waluty
          */
