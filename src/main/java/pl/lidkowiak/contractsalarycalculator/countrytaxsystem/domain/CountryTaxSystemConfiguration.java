@@ -1,8 +1,9 @@
 package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable.NbpApiBaseUrl;
+import pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable.NbpExchangeRateTableASupplier;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.nbpexchangeratetable.NbpRateTableAToPlnExchanger;
 import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
@@ -41,16 +42,19 @@ class CountryTaxSystemConfiguration {
                     .build()
     );
 
-    @Value("${nbpApiExchangeRatesTableUrl:http://api.nbp.pl/api/exchangerates/tables/A}")
-    String nbpApiExchangeRatesTableUrl;
-
     @Bean
     CountryTaxSystemRepository countryTaxSystemRepository() {
         return new InMemoryCountryTaxSystemRepository(SUPPORTED_COUNTRY_TAX_SYSTEMS);
     }
 
     @Bean
-    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository) {
-        return new CountryTaxSystemFacade(countryTaxSystemRepository, new NbpRateTableAToPlnExchanger(nbpApiExchangeRatesTableUrl));
+    NbpExchangeRateTableASupplier nbpExchangeRateTableASupplier(@NbpApiBaseUrl String nbpApiBaseUrl) {
+        return new NbpExchangeRateTableASupplier(nbpApiBaseUrl);
+    }
+
+    @Bean
+    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository,
+                                                  NbpExchangeRateTableASupplier nbpExchangeRateTableASupplier) {
+        return new CountryTaxSystemFacade(countryTaxSystemRepository, new NbpRateTableAToPlnExchanger(nbpExchangeRateTableASupplier));
     }
 }

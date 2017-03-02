@@ -12,10 +12,6 @@ public class NbpRateTableAToPlnExchanger implements ToPlnExchanger {
 
     private Supplier<ExchangeRatesTableDto> exchangeRatesTableADto;
 
-    public NbpRateTableAToPlnExchanger(String nbpApiExchangeRatesTableUrl) {
-        this(new NbpExchangeRateTableASupplier(nbpApiExchangeRatesTableUrl));
-    }
-
     public NbpRateTableAToPlnExchanger(Supplier<ExchangeRatesTableDto> exchangeRatesTableADto) {
         this.exchangeRatesTableADto = exchangeRatesTableADto;
     }

@@ -25,7 +25,7 @@ public class NbpExchangeRateTableASupplierTest {
         wireMockServer = new WireMockServer(wireMockConfig().dynamicPort());
         wireMockServer.start();
 
-        cut = new NbpExchangeRateTableASupplier("http://localhost:" + wireMockServer.port() + "/api/exchangerates/tables/A");
+        cut = new NbpExchangeRateTableASupplier("http://localhost:" + wireMockServer.port());
     }
 
     @AfterClass

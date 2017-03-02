@@ -11,7 +11,9 @@ import java.util.function.Supplier;
 
 import static java.util.Arrays.asList;
 
-class NbpExchangeRateTableASupplier implements Supplier<ExchangeRatesTableDto> {
+public class NbpExchangeRateTableASupplier implements Supplier<ExchangeRatesTableDto> {
+
+    private static final String EXCHANGE_RATES_TABLE_URL = "/api/exchangerates/tables/A";
 
     private static final ParameterizedTypeReference<List<ExchangeRatesTableDto>> TYPE_REF = new ParameterizedTypeReference<List<ExchangeRatesTableDto>>() {
     };
@@ -19,8 +21,8 @@ class NbpExchangeRateTableASupplier implements Supplier<ExchangeRatesTableDto> {
     private final String nbpApiExchangeRatesTableUrl;
     private final RestOperations restOperations;
 
-    NbpExchangeRateTableASupplier(String nbpApiExchangeRatesTableUrl) {
-        this.nbpApiExchangeRatesTableUrl = nbpApiExchangeRatesTableUrl;
+    public NbpExchangeRateTableASupplier(String nbpApiBaseUrl) {
+        this.nbpApiExchangeRatesTableUrl = nbpApiBaseUrl + EXCHANGE_RATES_TABLE_URL;
         this.restOperations = new RestTemplate();
     }
 
