@@ -15,7 +15,7 @@ import static io.restassured.path.json.config.JsonPathConfig.NumberReturnType.BI
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
-public class CountryTaxSystemTests extends AbstractIntegrationTest {
+public class CountryTaxSystemHappyPathAcceptanceTests extends AbstractIntegrationTest {
 
     @Test
     public void should_get_all_three_defined_country_tax_system() {
@@ -70,7 +70,6 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
 
                 .log().all()
                 .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "UK")
-
 
                 .then()
 
@@ -146,52 +145,5 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
                 .body("amount", equalTo(new BigDecimal("20014.64")))
                 .body("currency", equalTo("PLN"));
     }
-
-    @Test
-    public void should_return_error_when_try_to_perform_calculation_for_not_supported_country() {
-        given()
-                .contentType(JSON)
-                .accept(JSON)
-                .body(MoneyDto.of(BigDecimal.valueOf(1000), "PLN"))
-
-                .when()
-
-                .log().all()
-                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "FR")
-
-
-                .then()
-
-                .log().all()
-                .assertThat()
-
-                .statusCode(500)
-                .contentType(JSON)
-                .body("message", equalTo("FR not found!"));
-    }
-
-    @Test
-    public void should_return_error_when_try_to_perform_calculation_for_country_with_different_currency() {
-        given()
-                .contentType(JSON)
-                .accept(JSON)
-                .body(MoneyDto.of(BigDecimal.valueOf(1000), "PLN"))
-
-                .when()
-
-                .log().all()
-                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "DE")
-
-
-                .then()
-
-                .log().all()
-                .assertThat()
-
-                .statusCode(500)
-                .contentType(JSON)
-                .body("message", equalTo("Currencies PLN and EUR are incompatible!"));
-    }
-
-
+    
 }
