@@ -19,13 +19,13 @@ class CountryTaxSystemRestController {
         this.countryTaxSystemFacade = countryTaxSystemFacade;
     }
 
-    @GetMapping(value = "/country-tax-systems",
+    @GetMapping(value = "/api/country-tax-systems",
             consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     List<CountryTaxSystemDto> getAllCountryTasSystems() {
         return countryTaxSystemFacade.getAllSupportedCountryTaxSystems();
     }
 
-    @PostMapping(value = "/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation",
+    @PostMapping(value = "/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation",
             consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     MoneyDto calculateMonthlyNetContractSalaryInPln(@PathVariable String countryCode, @RequestBody MoneyDto dailyNetSalaryDto) {
         final Money dailyNetSalary = Money.of(dailyNetSalaryDto.getAmount(), dailyNetSalaryDto.getCurrency());

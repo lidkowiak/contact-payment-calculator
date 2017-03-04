@@ -26,7 +26,7 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
                 .when()
 
                 .log().all()
-                .get("/country-tax-systems")
+                .get("/api/country-tax-systems")
 
                 .then()
 
@@ -69,7 +69,7 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
                 .when()
 
                 .log().all()
-                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "UK")
+                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "UK")
 
 
                 .then()
@@ -101,7 +101,7 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
                 .when()
 
                 .log().all()
-                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "PL")
+                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "PL")
 
 
                 .then()
@@ -133,7 +133,7 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
                 .when()
 
                 .log().all()
-                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "DE")
+                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "DE")
 
 
                 .then()
@@ -157,7 +157,7 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
                 .when()
 
                 .log().all()
-                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "FR")
+                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "FR")
 
 
                 .then()
@@ -180,7 +180,7 @@ public class CountryTaxSystemTests extends AbstractIntegrationTest {
                 .when()
 
                 .log().all()
-                .post("/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "DE")
+                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "DE")
 
 
                 .then()

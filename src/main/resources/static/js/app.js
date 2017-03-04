@@ -7,7 +7,7 @@ var app = new Vue({
         monthlyPlnNetContractSalary: 0
     },
     mounted : function() {
-        axios.get('/country-tax-systems', { headers : {'Content-Type' : 'application/json;charset=UTF-8'}, data : {}})
+        axios.get('/api/country-tax-systems', { headers : {'Content-Type' : 'application/json;charset=UTF-8'}, data : {}})
                   .then(function (response) {
                    app.supportedCountryTaxSystems = response.data;
                   })
@@ -17,7 +17,7 @@ var app = new Vue({
     },
     methods : {
         calculateMonthlyPlnNetContractSalary : function() {
-            var url = 'country-tax-systems/' + app.supportedCountryTaxSystems[app.selectedCountryIndex].countryCode + '/monthly-pln-net-contract-salary-calculation';
+            var url = '/api/country-tax-systems/' + app.supportedCountryTaxSystems[app.selectedCountryIndex].countryCode + '/monthly-pln-net-contract-salary-calculation';
             axios.post(url, {
                     amount : app.dailyNetSalary,
                     currency : app.supportedCountryTaxSystems[app.selectedCountryIndex].currencyCode
