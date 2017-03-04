@@ -20,9 +20,15 @@ public class DefaultMonthlyNetSalaryCalculationPolicy implements MonthlyNetContr
 
     @Override
     public Money calculate(Money monthlyNetSalary) {
-        return monthlyNetSalary
-                .multiplyBy(WORKING_DAYS_IN_MONTH)
-                .subtract(fixedCost)
-                .multiplyBy(BigDecimal.ONE.subtract(incomeTaxRatio));
+        final Money incomeBeforeTaxation = monthlyNetSalary.multiplyBy(WORKING_DAYS_IN_MONTH)
+                .subtract(fixedCost);
+
+        return shouldPayTax(incomeBeforeTaxation)
+                ? incomeBeforeTaxation.multiplyBy(BigDecimal.ONE.subtract(incomeTaxRatio))
+                : incomeBeforeTaxation;
+    }
+
+    private boolean shouldPayTax(Money incomeBeforeTaxation) {
+        return incomeBeforeTaxation.isAmountGreaterThan(BigDecimal.ZERO);
     }
 }

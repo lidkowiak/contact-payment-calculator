@@ -71,10 +71,8 @@ public class Money {
         return new Money(amount.subtract(money.amount), currency);
     }
 
-    private void assertSameCurrencyAs(Money money) {
-        if (!currency.equals(money.currency)) {
-            throw new IncompatibleCurrenciesOperationException(currency, money.currency);
-        }
+    public boolean isAmountGreaterThan(BigDecimal toCompare) {
+        return amount.compareTo(toCompare) > 0;
     }
 
     public boolean hasCurrency(Currency currency) {
@@ -83,6 +81,12 @@ public class Money {
 
     public String getCurrencyCode() {
         return currency.getCurrencyCode();
+    }
+
+    private void assertSameCurrencyAs(Money money) {
+        if (!currency.equals(money.currency)) {
+            throw new IncompatibleCurrenciesOperationException(currency, money.currency);
+        }
     }
 
 }
