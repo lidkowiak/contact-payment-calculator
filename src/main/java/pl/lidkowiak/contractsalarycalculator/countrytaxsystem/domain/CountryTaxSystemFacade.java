@@ -8,6 +8,9 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Public facade for country tax system domain.
+ */
 public class CountryTaxSystemFacade {
 
     private final CountryTaxSystemRepository repository;
@@ -23,12 +26,18 @@ public class CountryTaxSystemFacade {
         return toDto(countryTaxSystems);
     }
 
+    /**
+     * @throws CountryTaxSystemNotFoundException
+     */
     public Money calculateMonthlyNetContractSalaryInPln(String countryCode, Money dailyNetSalary) {
         final Money calculateMonthlyNetSalary = calculateMonthlyNetContractSalary(countryCode, dailyNetSalary);
         final Money calculateMonthlyNetSalaryPln = toPlnExchanger.exchange(calculateMonthlyNetSalary);
         return calculateMonthlyNetSalaryPln;
     }
 
+    /**
+     * @throws CountryTaxSystemNotFoundException
+     */
     public Money calculateMonthlyNetContractSalary(String countryCode, Money dailyNetSalary) {
         final CountryTaxSystem countryTaxSystem = repository.findByCountryCode(countryCode)
                 .orElseThrow(() -> new CountryTaxSystemNotFoundException(countryCode));

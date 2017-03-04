@@ -4,6 +4,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+/**
+ * Data transfer object for money (amount with currency).
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")

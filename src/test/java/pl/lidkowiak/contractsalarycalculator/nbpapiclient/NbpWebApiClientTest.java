@@ -6,9 +6,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.ExchangeRatesTableDto;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.FetchingExchangeRatesTableException;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiClient;
 
 import java.math.BigDecimal;
 
@@ -18,17 +15,17 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class NbpApiClientTest {
+public class NbpWebApiClientTest {
 
     static WireMockServer wireMockServer;
-    static NbpApiClient cut;
+    static NbpWebApiClient cut;
 
     @BeforeClass
     public static void setUpWireMock() {
         wireMockServer = new WireMockServer(wireMockConfig().dynamicPort());
         wireMockServer.start();
 
-        cut = new NbpApiClient("http://localhost:" + wireMockServer.port());
+        cut = new NbpWebApiClient("http://localhost:" + wireMockServer.port());
     }
 
     @AfterClass
@@ -52,7 +49,7 @@ public class NbpApiClientTest {
                         .withBodyFile("api_exchangerates_tables_A_27_02_2017.json")));
 
         //when
-        ExchangeRatesTableDto exchangeRatesTable = cut.getExchangeRatesTableA();
+        ExchangeRatesTableDto exchangeRatesTable = cut.getCurrentExchangeRatesTableA();
 
         //then
         assertThat(exchangeRatesTable).isEqualTo(ExchangeRatesTableDto.builder()
@@ -111,8 +108,8 @@ public class NbpApiClientTest {
 
         //when
         //then
-        assertThatThrownBy(() -> cut.getExchangeRatesTableA())
-                .isInstanceOf(FetchingExchangeRatesTableException.class)
+        assertThatThrownBy(() -> cut.getCurrentExchangeRatesTableA())
+                .isInstanceOf(NbpWebApiException.class)
                 .hasMessage("Error occurred during fetching NBP exchange rates!")
                 .hasCauseInstanceOf(HttpClientErrorException.class);
     }

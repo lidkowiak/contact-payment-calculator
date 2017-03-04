@@ -9,27 +9,32 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * NBP exchange rates table
+ * {@see http://api.nbp.pl/#kursyOdp}
+ */
 @Data
 @Builder
 @AllArgsConstructor
 public class ExchangeRatesTableDto {
+
     /**
-     * Typ tabeli
+     * Table type, i.e. A, B, C
      */
     private String table;
 
     /**
-     * Numer tabeli
+     * Table number
      */
     private String no;
 
     /**
-     * Data publikacji (format RRRR-MM-DD)
+     * Date of publication (format YYYY-MM-DD)
      */
     private String effectiveDate;
 
     /**
-     * Lista kursów poszczególnych walut w tabeli
+     * List of exchange rates for individual currencies in the table
      */
     private List<RateDto> rates;
 
@@ -42,18 +47,19 @@ public class ExchangeRatesTableDto {
     @Data
     @AllArgsConstructor
     public static class RateDto {
+
         /**
-         * Nazwa waluty
+         * Currency name
          */
         private String currency;
 
         /**
-         * Kod waluty (standard ISO 4217)
+         * Currency code (ISO 4217 standard)
          */
         private String code;
 
         /**
-         * Przeliczony kurs średni waluty (dotyczy tabel A oraz B)
+         * Calculated average exchange rate for currency (applies to table A and B)
          */
         private BigDecimal mid;
 

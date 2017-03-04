@@ -2,8 +2,14 @@ package pl.lidkowiak.contractsalarycalculator.currencyexchange;
 
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 
+/**
+ * Exchanges different currencies to PLN.
+ */
 public interface ToPlnExchanger {
 
-    Money exchange(Money to);
+    /**
+     * @throws ExchangeNotSupportedException
+     */
+    Money exchange(Money toExchange);
 
 }

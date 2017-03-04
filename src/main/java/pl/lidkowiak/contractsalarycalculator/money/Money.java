@@ -9,6 +9,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
+/**
+ * Immutable value object representing money, i.e. amount and currency.
+ * Currency is represented using {@link Currency}.
+ * It can perform basic operation, i.e. adding, subtracting and multiplying.
+ */
 @Getter
 @EqualsAndHashCode
 @ToString
@@ -50,11 +55,17 @@ public class Money {
         return new Money(amount.multiply(multiplicand), currency);
     }
 
+    /**
+     * @throws IncompatibleCurrenciesOperationException
+     */
     public Money add(Money money) {
         assertSameCurrencyAs(money);
         return new Money(amount.add(money.amount), currency);
     }
 
+    /**
+     * @throws IncompatibleCurrenciesOperationException
+     */
     public Money subtract(Money money) {
         assertSameCurrencyAs(money);
         return new Money(amount.subtract(money.amount), currency);

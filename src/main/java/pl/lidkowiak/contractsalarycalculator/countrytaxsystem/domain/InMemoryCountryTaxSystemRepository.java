@@ -9,6 +9,9 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toConcurrentMap;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Simple {@link CountryTaxSystemRepository} using {@link java.util.concurrent.ConcurrentHashMap} as a store.
+ */
 class InMemoryCountryTaxSystemRepository implements CountryTaxSystemRepository {
 
     private final Map<String, CountryTaxSystem> store;

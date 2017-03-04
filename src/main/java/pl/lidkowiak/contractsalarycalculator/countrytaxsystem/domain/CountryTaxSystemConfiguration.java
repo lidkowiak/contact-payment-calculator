@@ -7,7 +7,7 @@ import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
 import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiBaseUrl;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiClient;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpWebApiClient;
 import pl.lidkowiak.contractsalarycalculator.salarycalculations.DefaultMonthlyNetSalaryCalculationPolicy;
 
 import java.math.BigDecimal;
@@ -49,12 +49,12 @@ class CountryTaxSystemConfiguration {
     }
 
     @Bean
-    NbpApiClient nbpApiClient(@NbpApiBaseUrl String nbpApiBaseUrl) {
-        return new NbpApiClient(nbpApiBaseUrl);
+    NbpWebApiClient nbpApiClient(@NbpApiBaseUrl String nbpApiBaseUrl) {
+        return new NbpWebApiClient(nbpApiBaseUrl);
     }
 
     @Bean
-    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository, NbpApiClient nbpApiBaseUrl) {
+    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository, NbpWebApiClient nbpApiBaseUrl) {
         final ToPlnExchanger toPlnExchanger = new NbpRateTableAToPlnExchanger(nbpApiBaseUrl);
         return new CountryTaxSystemFacade(countryTaxSystemRepository, toPlnExchanger);
     }

@@ -4,6 +4,10 @@ import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 import java.math.BigDecimal;
 
+/**
+ * Default strategy for calculation monthly net contract salary based on daily net salary
+ * that takes into consideration fixed cost and income tax.
+ */
 public class DefaultMonthlyNetSalaryCalculationPolicy implements MonthlyNetContractSalaryCalculationPolicy {
 
     private final BigDecimal incomeTaxRatio;

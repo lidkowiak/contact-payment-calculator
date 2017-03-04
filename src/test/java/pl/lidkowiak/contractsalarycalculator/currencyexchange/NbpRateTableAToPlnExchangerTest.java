@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 import pl.lidkowiak.contractsalarycalculator.nbpapiclient.ExchangeRatesTableDto;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiClient;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpWebApiClient;
 
 import java.math.BigDecimal;
 
@@ -16,14 +16,14 @@ public class NbpRateTableAToPlnExchangerTest {
 
     ExchangeRatesTableDto mockedExchangeRatesTableDto = null;
 
-    NbpApiClient mockNbpApiClient = new NbpApiClient("") {
+    NbpWebApiClient mockNbpWebApiClient = new NbpWebApiClient("") {
         @Override
-        public ExchangeRatesTableDto getExchangeRatesTableA() {
+        public ExchangeRatesTableDto getCurrentExchangeRatesTableA() {
             return mockedExchangeRatesTableDto;
         }
     };
 
-    NbpRateTableAToPlnExchanger cut = new NbpRateTableAToPlnExchanger(mockNbpApiClient);
+    NbpRateTableAToPlnExchanger cut = new NbpRateTableAToPlnExchanger(mockNbpWebApiClient);
 
     @Before
     public void clear() {
@@ -70,7 +70,7 @@ public class NbpRateTableAToPlnExchangerTest {
         //then
         assertThatThrownBy(() -> cut.exchange(toExchange))
                 .isInstanceOf(ExchangeNotSupportedException.class)
-                .hasMessage("Can not exchange GBP to PLN")
+                .hasMessage("Cannot exchange GBP to PLN")
                 .hasNoCause();
     }
 

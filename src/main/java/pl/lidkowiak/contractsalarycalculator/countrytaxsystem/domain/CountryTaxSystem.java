@@ -7,6 +7,10 @@ import pl.lidkowiak.contractsalarycalculator.salarycalculations.MonthlyNetContra
 
 import java.util.Currency;
 
+/**
+ * Entity representing tax system of country, especially strategy for calculating contract monthly net salary.
+ * Entity is identified by country code.
+ */
 @Builder
 class CountryTaxSystem {
 

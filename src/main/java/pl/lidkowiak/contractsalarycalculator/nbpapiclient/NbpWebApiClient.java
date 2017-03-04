@@ -10,7 +10,11 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
-public class NbpApiClient {
+/**
+ * Client for NBP Web API
+ * API documentation: http://api.nbp.pl
+ */
+public class NbpWebApiClient {
 
     private static final ParameterizedTypeReference<List<ExchangeRatesTableDto>> TYPE_REF = new ParameterizedTypeReference<List<ExchangeRatesTableDto>>() {
     };
@@ -18,12 +22,15 @@ public class NbpApiClient {
     private final String nbpApiBaseUrl;
     private final RestOperations restOperations;
 
-    public NbpApiClient(String nbpApiBaseUrl) {
+    public NbpWebApiClient(String nbpApiBaseUrl) {
         this.nbpApiBaseUrl = nbpApiBaseUrl;
-        this.restOperations = new RestTemplate();
+        this.restOperations = new RestTemplate(); // default RestTemplate is fine
     }
 
-    public ExchangeRatesTableDto getExchangeRatesTableA() {
+    /**
+     * Current exchange rate A table
+     */
+    public ExchangeRatesTableDto getCurrentExchangeRatesTableA() {
         try {
             final ResponseEntity<List<ExchangeRatesTableDto>> responseEntity =
                     restOperations.exchange(nbpApiBaseUrl + "/api/exchangerates/tables/A", HttpMethod.GET,
@@ -31,7 +38,7 @@ public class NbpApiClient {
             // service returns list of exchange rates tables which always has single item
             return responseEntity.getBody().get(0);
         } catch (RestClientException e) {
-            throw new FetchingExchangeRatesTableException(e);
+            throw new NbpWebApiException("Error occurred during fetching NBP exchange rates!", e);
         }
     }
 

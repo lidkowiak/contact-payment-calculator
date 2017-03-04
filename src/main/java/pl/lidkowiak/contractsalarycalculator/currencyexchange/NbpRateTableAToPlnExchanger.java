@@ -3,16 +3,20 @@ package pl.lidkowiak.contractsalarycalculator.currencyexchange;
 import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 import pl.lidkowiak.contractsalarycalculator.nbpapiclient.ExchangeRatesTableDto;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiClient;
+import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpWebApiClient;
 
 import java.util.Currency;
 
+/**
+ * Exchanges currencies to PLN using current NBP exchange rate A table.
+ * Refer to {@see https://www.nbp.pl/Kursy/KursyA.html} in order to check supported currencies.
+ */
 public class NbpRateTableAToPlnExchanger implements ToPlnExchanger {
 
-    private NbpApiClient nbpApiClient;
+    private NbpWebApiClient nbpWebApiClient;
 
-    public NbpRateTableAToPlnExchanger(NbpApiClient nbpApiClient) {
-        this.nbpApiClient = nbpApiClient;
+    public NbpRateTableAToPlnExchanger(NbpWebApiClient nbpWebApiClient) {
+        this.nbpWebApiClient = nbpWebApiClient;
     }
 
     @Override
@@ -23,7 +27,7 @@ public class NbpRateTableAToPlnExchanger implements ToPlnExchanger {
 
         final Currency sourceCurrency = toExchange.getCurrency();
 
-        final ExchangeRatesTableDto exchangeRatesTable = nbpApiClient.getExchangeRatesTableA();
+        final ExchangeRatesTableDto exchangeRatesTable = nbpWebApiClient.getCurrentExchangeRatesTableA();
         ExchangeRatesTableDto.RateDto rate = exchangeRatesTable.rateFor(sourceCurrency)
                 .orElseThrow(() -> new ExchangeNotSupportedException(sourceCurrency, Currencies.PLN));
 
