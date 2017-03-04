@@ -1,5 +1,6 @@
 package pl.lidkowiak.contractsalarycalculator.nbpapiclient;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientException;
@@ -14,6 +15,7 @@ import static java.util.Arrays.asList;
  * Client for NBP Web API
  * API documentation: http://api.nbp.pl
  */
+@Slf4j
 public class NbpWebApiClient {
 
     private static final ParameterizedTypeReference<List<ExchangeRatesTableDto>> TYPE_REF = new ParameterizedTypeReference<List<ExchangeRatesTableDto>>() {
@@ -31,12 +33,15 @@ public class NbpWebApiClient {
      * Current exchange rate A table
      */
     public ExchangeRatesTableDto getCurrentExchangeRatesTableA() {
+        log.trace("Invoking /api/exchangerates/tables/A ...");
         try {
             final ResponseEntity<List<ExchangeRatesTableDto>> responseEntity =
                     restOperations.exchange(nbpApiBaseUrl + "/api/exchangerates/tables/A", HttpMethod.GET,
                             acceptApplicationJsonUtf8RequestEntity(), TYPE_REF);
             // service returns list of exchange rates tables which always has single item
-            return responseEntity.getBody().get(0);
+            final ExchangeRatesTableDto response = responseEntity.getBody().get(0);
+            log.trace("Got {}", response);
+            return response;
         } catch (RestClientException e) {
             throw new NbpWebApiException("Error occurred during fetching NBP exchange rates!", e);
         }
