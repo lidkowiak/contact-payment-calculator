@@ -2,6 +2,7 @@ package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.lidkowiak.contractsalarycalculator.currencyexchange.CachedNbpRateTableOfATypeSupplier;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.NbpRateTableOfATypeSupplier;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
 import pl.lidkowiak.contractsalarycalculator.money.Currencies;
@@ -49,7 +50,8 @@ class CountryTaxSystemConfiguration {
 
     @Bean
     CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository, @NbpApiBaseUrl String nbpApiBaseUrl) {
-        final ToPlnExchanger toPlnExchanger = new ToPlnExchanger(new NbpRateTableOfATypeSupplier(new NbpWebApiClient(nbpApiBaseUrl)));
+        final CachedNbpRateTableOfATypeSupplier nbpRateTableOfATypeSupplier = new CachedNbpRateTableOfATypeSupplier(new NbpRateTableOfATypeSupplier(new NbpWebApiClient(nbpApiBaseUrl)));
+        final ToPlnExchanger toPlnExchanger = new ToPlnExchanger(nbpRateTableOfATypeSupplier);
         return new CountryTaxSystemFacade(countryTaxSystemRepository, toPlnExchanger);
     }
 }

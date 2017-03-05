@@ -3,6 +3,7 @@ package pl.lidkowiak.contractsalarycalculator.currencyexchange;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.util.Optional;
  */
 @Builder
 @EqualsAndHashCode
+@ToString
 public class ExchangeRateTable {
 
     @Getter
