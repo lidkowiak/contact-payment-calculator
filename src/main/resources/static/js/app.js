@@ -22,7 +22,7 @@ var app = new Vue({
             app.errorResponse = null;
             app.monthlyPlnNetContractSalary = {};
 
-            if (!app.dailyNetSalary) {
+            if (!app.dailyNetSalary || app.dailyNetSalary <= 0) {
                 app.dailyNetSalaryError = true;
                 return;
             }
