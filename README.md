@@ -1,4 +1,4 @@
-# contact-salary-calculator
+# contract-salary-calculator
 
 
 ## Build
@@ -7,5 +7,8 @@
 ## Run
 `./mvnw spring-boot:run`
 
-## Browser
+## UI
 `http://localhost:8080`
+
+## Swagger UI
+`http://localhost:8080/swagger-ui.html`

@@ -1,5 +1,7 @@
 package pl.lidkowiak.contractsalarycalculator.countrytaxsystem;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.CountryTaxSystemDto;
@@ -24,15 +26,17 @@ class CountryTaxSystemRestController {
         this.countryTaxSystemFacade = countryTaxSystemFacade;
     }
 
-    @GetMapping(value = "/api/country-tax-systems",
-            consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/api/country-tax-systems", produces = APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation("Returns all supported country tax system")
     List<CountryTaxSystemDto> getAllCountryTasSystems() {
         return countryTaxSystemFacade.getAllSupportedCountryTaxSystems();
     }
 
     @PostMapping(value = "/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation",
             consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    MoneyDto calculateMonthlyNetContractSalaryInPln(@PathVariable String countryCode, @RequestBody MoneyDto dailyNetSalaryDto) {
+    @ApiOperation("Calculates monthly bet contract salary in PLN based on daily net salary in provided country currency")
+    MoneyDto calculateMonthlyNetContractSalaryInPln(@PathVariable @ApiParam("Country code") String countryCode,
+                                                    @RequestBody @ApiParam("Daily net salary in provided country currency") MoneyDto dailyNetSalaryDto) {
         final Money dailyNetSalary = validateAndGetMoney(dailyNetSalaryDto);
         final Money monthlyNetContractSalaryInPln = countryTaxSystemFacade
                 .calculateMonthlyNetContractSalaryInPln(countryCode, dailyNetSalary);
