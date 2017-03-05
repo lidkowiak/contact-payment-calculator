@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 /**
  * Client for NBP Web API
@@ -49,7 +49,7 @@ public class NbpWebApiClient {
 
     private HttpEntity<Void> acceptApplicationJsonUtf8RequestEntity() {
         final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setAccept(asList(MediaType.APPLICATION_JSON_UTF8));
+        httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
         return new HttpEntity<>(httpHeaders);
     }
 

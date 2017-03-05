@@ -32,8 +32,7 @@ public class CountryTaxSystemFacade {
      */
     public Money calculateMonthlyNetContractSalaryInPln(String countryCode, Money dailyNetSalary) {
         final Money calculateMonthlyNetSalary = calculateMonthlyNetContractSalary(countryCode, dailyNetSalary);
-        final Money calculateMonthlyNetSalaryPln = toPlnExchanger.exchange(calculateMonthlyNetSalary);
-        return calculateMonthlyNetSalaryPln;
+        return toPlnExchanger.exchange(calculateMonthlyNetSalary);
     }
 
     /**
@@ -45,8 +44,7 @@ public class CountryTaxSystemFacade {
                 .orElseThrow(() -> new CountryTaxSystemNotFoundException(countryCode));
 
         final Money calculateMonthlyNetSalary = countryTaxSystem.calculateMonthlyNetSalary(dailyNetSalary);
-        final Money calculateMonthlyNetSalaryPln = toPlnExchanger.exchange(calculateMonthlyNetSalary);
-        return calculateMonthlyNetSalaryPln;
+        return toPlnExchanger.exchange(calculateMonthlyNetSalary);
     }
 
     private List<CountryTaxSystemDto> toDto(List<CountryTaxSystem> countryTaxSystems) {

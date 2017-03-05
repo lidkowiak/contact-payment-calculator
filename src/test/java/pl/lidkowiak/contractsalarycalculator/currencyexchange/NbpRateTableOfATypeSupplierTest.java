@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Collections;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NbpRateTableOfATypeSupplierTest {
@@ -39,7 +39,7 @@ public class NbpRateTableOfATypeSupplierTest {
                 .table("A")
                 .no("040/A/NBP/2017")
                 .effectiveDate("2017-02-27")
-                .rates(asList(rate("euro", "EUR", "4.3135")))
+                .rates(singletonList(rate("euro", "EUR", "4.3135")))
                 .build();
         //when
         //then
