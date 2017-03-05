@@ -2,32 +2,25 @@ package pl.lidkowiak.contractsalarycalculator.currencyexchange;
 
 import org.junit.Before;
 import org.junit.Test;
+import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.ExchangeRatesTableDto;
-import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpWebApiClient;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Collections;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class NbpRateTableAToPlnExchangerTest {
+public class ToPlnExchangerTest {
 
-    ExchangeRatesTableDto mockedExchangeRatesTableDto = null;
-
-    NbpWebApiClient mockNbpWebApiClient = new NbpWebApiClient("") {
-        @Override
-        public ExchangeRatesTableDto getCurrentExchangeRatesTableA() {
-            return mockedExchangeRatesTableDto;
-        }
-    };
-
-    NbpRateTableAToPlnExchanger cut = new NbpRateTableAToPlnExchanger(mockNbpWebApiClient);
+    ExchangeRateTable mockedExchangeTableRate = null;
+    ToPlnExchanger cut = new ToPlnExchanger(() -> mockedExchangeTableRate);
 
     @Before
     public void clear() {
-        mockedExchangeRatesTableDto = null;
+        mockedExchangeTableRate = null;
     }
 
     @Test
@@ -43,11 +36,9 @@ public class NbpRateTableAToPlnExchangerTest {
     @Test
     public void should_exchange_EUR_to_PLN() {
         //given
-        mockedExchangeRatesTableDto = ExchangeRatesTableDto.builder()
-                .table("A")
-                .no("040/A/NBP/2017")
-                .effectiveDate("2017-02-27")
-                .rates(asList(rate("euro", "EUR", "4.3135")))
+        mockedExchangeTableRate = ExchangeRateTable.builder()
+                .publicationDate(LocalDate.of(2017, Month.FEBRUARY, 27))
+                .table(Collections.singletonMap(Currencies.EUR, new BigDecimal("4.3135")))
                 .build();
         Money toExchange = Money.eur(BigDecimal.valueOf(100));
         //when
@@ -59,11 +50,9 @@ public class NbpRateTableAToPlnExchangerTest {
     @Test
     public void should_throw_exception_when_try_to_currency_that_is_not_defined_in_exchange_table() {
         //given
-        mockedExchangeRatesTableDto = ExchangeRatesTableDto.builder()
-                .table("A")
-                .no("040/A/NBP/2017")
-                .effectiveDate("2017-02-27")
-                .rates(asList(rate("euro", "EUR", "4.3135")))
+        mockedExchangeTableRate = ExchangeRateTable.builder()
+                .publicationDate(LocalDate.of(2017, Month.FEBRUARY, 27))
+                .table(Collections.singletonMap(Currencies.EUR, new BigDecimal("4.3135")))
                 .build();
         Money toExchange = Money.gbp(BigDecimal.valueOf(100));
         //when
@@ -73,9 +62,4 @@ public class NbpRateTableAToPlnExchangerTest {
                 .hasMessage("Cannot exchange GBP to PLN")
                 .hasNoCause();
     }
-
-    private ExchangeRatesTableDto.RateDto rate(String currency, String code, String mid) {
-        return new ExchangeRatesTableDto.RateDto(currency, code, new BigDecimal(mid));
-    }
-
 }

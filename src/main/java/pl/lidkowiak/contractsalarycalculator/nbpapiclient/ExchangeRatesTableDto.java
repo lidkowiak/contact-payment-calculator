@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Currency;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * NBP exchange rates table
@@ -17,6 +17,8 @@ import java.util.Optional;
 @Builder
 @AllArgsConstructor
 public class ExchangeRatesTableDto {
+
+    private final static DateTimeFormatter EFFECTIVE_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * Table type, i.e. A, B, C
@@ -38,10 +40,8 @@ public class ExchangeRatesTableDto {
      */
     private List<RateDto> rates;
 
-    public Optional<RateDto> rateFor(Currency currency) {
-        return rates.stream()
-                .filter(r -> r.isForCurrency(currency))
-                .findFirst();
+    public LocalDate getEffectiveDate() {
+        return LocalDate.parse(effectiveDate, EFFECTIVE_DATE_FORMATTER);
     }
 
     @Data
@@ -62,9 +62,5 @@ public class ExchangeRatesTableDto {
          * Calculated average exchange rate for currency (applies to table A and B)
          */
         private BigDecimal mid;
-
-        boolean isForCurrency(Currency currency) {
-            return currency.getCurrencyCode().equals(code);
-        }
     }
 }
