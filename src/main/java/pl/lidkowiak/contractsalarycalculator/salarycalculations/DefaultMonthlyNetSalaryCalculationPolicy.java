@@ -19,8 +19,11 @@ public class DefaultMonthlyNetSalaryCalculationPolicy implements MonthlyNetContr
     }
 
     @Override
-    public Money calculate(Money monthlyNetSalary) {
-        final Money incomeBeforeTaxation = monthlyNetSalary.multiplyBy(WORKING_DAYS_IN_MONTH)
+    public Money calculate(Money dailyNetSalary) {
+        if (dailyNetSalary.isAmountLessOrEqualTo(BigDecimal.ZERO)) {
+            throw new IllegalArgumentException("Monthly net salary should be greater 0.00.");
+        }
+        final Money incomeBeforeTaxation = dailyNetSalary.multiplyBy(WORKING_DAYS_IN_MONTH)
                 .subtract(fixedCost);
 
         return shouldPayTax(incomeBeforeTaxation)

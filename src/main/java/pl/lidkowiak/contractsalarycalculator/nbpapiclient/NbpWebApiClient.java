@@ -38,7 +38,7 @@ public class NbpWebApiClient {
             final ResponseEntity<List<ExchangeRatesTableDto>> responseEntity =
                     restOperations.exchange(nbpApiBaseUrl + "/api/exchangerates/tables/A", HttpMethod.GET,
                             acceptApplicationJsonUtf8RequestEntity(), TYPE_REF);
-            // service returns list of exchange rates tables which always has single item
+            // returns list of exchange rates table which always has single item
             final ExchangeRatesTableDto response = responseEntity.getBody().get(0);
             log.trace("Got {}", response);
             return response;

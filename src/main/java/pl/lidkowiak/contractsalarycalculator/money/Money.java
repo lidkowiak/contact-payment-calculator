@@ -67,6 +67,10 @@ public class Money {
         return new Money(amount.subtract(money.amount), currency);
     }
 
+    public boolean isAmountLessOrEqualTo(BigDecimal toCompare) {
+        return amount.compareTo(toCompare) <= 0;
+    }
+
     public boolean isAmountGreaterThan(BigDecimal toCompare) {
         return amount.compareTo(toCompare) > 0;
     }

@@ -120,4 +120,26 @@ public class CountryTaxSystemErrorsAcceptanceTests extends AbstractIntegrationTe
                 .contentType(JSON)
                 .body("message", equalTo("Euro is not valid ISO 4217 code of the currency!"));
     }
+
+    @Test
+    public void should_return_error_when_try_to_perform_calculation_with_negative_amount() throws Exception {
+        given()
+                .contentType(JSON)
+                .accept(JSON)
+                .body(MoneyDto.of(BigDecimal.valueOf(-100), "PLN"))
+
+                .when()
+
+                .log().all()
+                .post("/api/country-tax-systems/{countryCode}/monthly-pln-net-contract-salary-calculation", "PL")
+
+                .then()
+
+                .log().all()
+                .assertThat()
+
+                .statusCode(500)
+                .contentType(JSON)
+                .body("message", equalTo("Monthly net salary should be greater 0.00."));
+    }
 }
