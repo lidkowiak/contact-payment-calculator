@@ -9,6 +9,9 @@ public interface MonthlyNetContractSalaryCalculationPolicy {
 
     int WORKING_DAYS_IN_MONTH = 22;
 
+    /**
+     * @throws NegativeDailyNetSalaryException
+     */
     Money calculate(Money dailyNetSalary);
 
 }

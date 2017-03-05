@@ -3,6 +3,9 @@ package pl.lidkowiak.contractsalarycalculator.salarycalculations;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Default strategy for calculation monthly net contract salary based on daily net salary
@@ -14,14 +17,15 @@ public class DefaultMonthlyNetSalaryCalculationPolicy implements MonthlyNetContr
     private final Money fixedCost;
 
     public DefaultMonthlyNetSalaryCalculationPolicy(BigDecimal incomeTaxRatio, Money fixedCost) {
-        this.incomeTaxRatio = incomeTaxRatio;
-        this.fixedCost = fixedCost;
+        this.incomeTaxRatio = requireNonNull(incomeTaxRatio, "Income tax ratio is required.");
+        this.fixedCost = requireNonNull(fixedCost, "Fixed cost is required.");
     }
 
     @Override
     public Money calculate(Money dailyNetSalary) {
+        requireNonNull(dailyNetSalary, "Daily net salary is required.");
         if (dailyNetSalary.isAmountLessOrEqualTo(BigDecimal.ZERO)) {
-            throw new IllegalArgumentException("Monthly net salary should be greater 0.00.");
+            throw new NegativeDailyNetSalaryException();
         }
         final Money incomeBeforeTaxation = dailyNetSalary.multiplyBy(WORKING_DAYS_IN_MONTH)
                 .subtract(fixedCost);

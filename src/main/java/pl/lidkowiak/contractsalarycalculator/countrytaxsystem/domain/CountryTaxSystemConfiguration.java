@@ -49,13 +49,8 @@ class CountryTaxSystemConfiguration {
     }
 
     @Bean
-    NbpWebApiClient nbpApiClient(@NbpApiBaseUrl String nbpApiBaseUrl) {
-        return new NbpWebApiClient(nbpApiBaseUrl);
-    }
-
-    @Bean
-    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository, NbpWebApiClient nbpApiBaseUrl) {
-        final ToPlnExchanger toPlnExchanger = new NbpRateTableAToPlnExchanger(nbpApiBaseUrl);
+    CountryTaxSystemFacade countryTaxSystemFacade(CountryTaxSystemRepository countryTaxSystemRepository, @NbpApiBaseUrl String nbpApiBaseUrl) {
+        final ToPlnExchanger toPlnExchanger = new NbpRateTableAToPlnExchanger(new NbpWebApiClient(nbpApiBaseUrl));
         return new CountryTaxSystemFacade(countryTaxSystemRepository, toPlnExchanger);
     }
 }

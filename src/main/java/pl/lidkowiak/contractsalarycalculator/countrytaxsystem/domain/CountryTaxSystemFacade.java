@@ -3,6 +3,7 @@ package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.CountryTaxSystemDto;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
+import pl.lidkowiak.contractsalarycalculator.salarycalculations.NegativeDailyNetSalaryException;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class CountryTaxSystemFacade {
 
     /**
      * @throws CountryTaxSystemNotFoundException
+     * @throws NegativeDailyNetSalaryException
      */
     public Money calculateMonthlyNetContractSalaryInPln(String countryCode, Money dailyNetSalary) {
         final Money calculateMonthlyNetSalary = calculateMonthlyNetContractSalary(countryCode, dailyNetSalary);
@@ -37,6 +39,7 @@ public class CountryTaxSystemFacade {
 
     /**
      * @throws CountryTaxSystemNotFoundException
+     * @throws NegativeDailyNetSalaryException
      */
     public Money calculateMonthlyNetContractSalary(String countryCode, Money dailyNetSalary) {
         final CountryTaxSystem countryTaxSystem = repository.findByCountryCode(countryCode)

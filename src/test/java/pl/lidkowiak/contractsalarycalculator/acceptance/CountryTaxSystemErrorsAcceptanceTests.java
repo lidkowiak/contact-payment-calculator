@@ -140,6 +140,6 @@ public class CountryTaxSystemErrorsAcceptanceTests extends AbstractIntegrationTe
 
                 .statusCode(500)
                 .contentType(JSON)
-                .body("message", equalTo("Monthly net salary should be greater 0.00."));
+                .body("message", equalTo("Daily net salary should be greater 0.00."));
     }
 }
