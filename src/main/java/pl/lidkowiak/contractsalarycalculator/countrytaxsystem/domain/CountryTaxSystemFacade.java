@@ -3,7 +3,6 @@ package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.api.CountryTaxSystemDto;
 import pl.lidkowiak.contractsalarycalculator.currencyexchange.ToPlnExchanger;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
-import pl.lidkowiak.contractsalarycalculator.salarycalculations.NegativeDailyNetSalaryException;
 
 import java.util.List;
 

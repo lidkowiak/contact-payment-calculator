@@ -3,7 +3,6 @@ package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 import lombok.Builder;
 import lombok.Getter;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
-import pl.lidkowiak.contractsalarycalculator.salarycalculations.MonthlyNetContractSalaryCalculationPolicy;
 
 import java.util.Currency;
 

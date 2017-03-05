@@ -1,6 +1,7 @@
-package pl.lidkowiak.contractsalarycalculator.salarycalculations;
+package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import org.junit.Test;
+import pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain.DefaultMonthlyNetSalaryCalculationPolicy;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 import java.math.BigDecimal;

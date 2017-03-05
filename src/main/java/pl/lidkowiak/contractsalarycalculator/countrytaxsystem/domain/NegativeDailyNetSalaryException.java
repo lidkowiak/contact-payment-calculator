@@ -1,4 +1,4 @@
-package pl.lidkowiak.contractsalarycalculator.salarycalculations;
+package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 /**
  * Created by lukasz on 05.03.2017.

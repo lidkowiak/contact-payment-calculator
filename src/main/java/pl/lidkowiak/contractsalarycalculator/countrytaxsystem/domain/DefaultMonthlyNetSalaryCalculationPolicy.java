@@ -1,9 +1,8 @@
-package pl.lidkowiak.contractsalarycalculator.salarycalculations;
+package pl.lidkowiak.contractsalarycalculator.countrytaxsystem.domain;
 
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -11,12 +10,12 @@ import static java.util.Objects.requireNonNull;
  * Default strategy for calculation monthly net contract salary based on daily net salary
  * that takes into consideration fixed cost and income tax.
  */
-public class DefaultMonthlyNetSalaryCalculationPolicy implements MonthlyNetContractSalaryCalculationPolicy {
+class DefaultMonthlyNetSalaryCalculationPolicy implements MonthlyNetContractSalaryCalculationPolicy {
 
     private final BigDecimal incomeTaxRatio;
     private final Money fixedCost;
 
-    public DefaultMonthlyNetSalaryCalculationPolicy(BigDecimal incomeTaxRatio, Money fixedCost) {
+    DefaultMonthlyNetSalaryCalculationPolicy(BigDecimal incomeTaxRatio, Money fixedCost) {
         this.incomeTaxRatio = requireNonNull(incomeTaxRatio, "Income tax ratio is required.");
         this.fixedCost = requireNonNull(fixedCost, "Fixed cost is required.");
     }

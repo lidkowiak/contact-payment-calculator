@@ -8,7 +8,6 @@ import pl.lidkowiak.contractsalarycalculator.money.Currencies;
 import pl.lidkowiak.contractsalarycalculator.money.Money;
 import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpApiBaseUrl;
 import pl.lidkowiak.contractsalarycalculator.nbpapiclient.NbpWebApiClient;
-import pl.lidkowiak.contractsalarycalculator.salarycalculations.DefaultMonthlyNetSalaryCalculationPolicy;
 
 import java.math.BigDecimal;
 import java.util.List;
